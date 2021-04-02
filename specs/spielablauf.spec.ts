@@ -46,4 +46,16 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         expect(spiel.spieler[1].karten.length).toBe(5);
     });
 
+    it('Nächster Spieler an der Reihe', (done) => {
+        const spiel = new Spiel();
+
+        spiel.spielerGewechselt.subscribe((spielerGewechselt) => {
+            expect(spiel.aktuellerSpielerId).toBe(_spieler[0].id);
+            expect(spielerGewechselt.neuerSpielerId).toBe(_spieler[0].id);
+
+            done();
+        });
+
+        spiel.starten(_spielkarten, _spieler);
+    });
 });
