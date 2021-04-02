@@ -1,0 +1,182 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="753px" height="573px" viewBox="-0.5 -0.5 753 573" content="&lt;mxfile&gt;&lt;diagram id=&quot;-k1KihXmkjAtaw9d5RxE&quot; name=&quot;domain-model&quot;&gt;7Vpbb6M4FP41SLsvK5tbksc0aXdW7VSVutLMPDrggKcEI+NMQn/92mBziUmHtnQnE6UvxZ/P8eVcvmNMLGex2f/NUBZ/piFOLBuEe8tZWrYN4cQT/yRSVIg3hRUQMRIqoQZ4JM9YgUChWxLivCPIKU04ybpgQNMUB7yDIcboriu2pkl31gxF2AAeA5SY6BcS8rhCp/akwT9hEsV6ZujPqp4N0sJqJ3mMQrprQc615SwYpbx62uwXOJHG03ap9G6O9NYLYzjlQxTsSuEHSrZqb7eIcawWxwu943xHNglKResqiEkS3qGCbuUMOUfBk25dxZSRZ5pylIguKADRzbhyoAM6Eo9SU8ASZXSbhjhUSmvRr3Sgq9tqLaAclNGn2vK21Me5kH/Q2wY1dIdyrpeiTS17Q5TH5XyygRISpeI5ENqYyQlJkixoQlm5eQeuEMR2PXGrBwD/en6jltjC1+WfwJV5sbDp/qiLYO14kTGYbjBnhRBRCs5UxYpKljp2dk3oQUdhcSvstB5S0R7VQzcBIR5UTPTHh2PEh2WLTYEvYkeW7UvjgHKbErxBbGWGjrZugtfcsGFKy5hqG1xBeYYCkkZ3pdbSPQgL6Q1pVSKScq4m4DTTfkerOlgY5Yi32sLwOiIGOcfud45yhjPQF94IvvAMXzxmRDLrJVebzPMBmsFJX67ay4kPwMfmqtdNVcEPZnj4PeEBx8hV/0iu/rM0MrUMHGG+Q3yJhZsPwTIucPrHn0ZPaSuS4LJmpPNUDdsjmVc9NwxF/B4F8W095HmxhfdqtugNhzHoYtpPF9LrF8JoEQYCoEx/gzCcCQCLxQcXd9/rMIbbV9x7Q8QfIURmwxnjHm3wMRr5t8iMrirBTQ1r4Vhzlz+bgz2VGvc43vRyTYRX+PYYEa0Fr+CGV3bCJefHLdNxuMUZIXD0i5hJLmUsXPjlVF4efLd7InEnA8NkNkaUwCP88hmneRAbWbygm2zLewrUb564EPT76JWZOwbjQ/OFv3qVu6TsqaYsHBge9ijEfuyF3zay1TEQ10A8A/ENZGIgUwOZGYi0ygF0tV2Zp4pl37nlVp5CrvyUREbXPM/Pjn5ef4XRG19ghPjSF44t6+IwwjrbKeMxjWiKkusGbbGF3H4jc0elvUpDfMecF8q0aMupZB6+0awkTMGKr+3GNznYX55uLvdq8KpVqFa1VrnAl3NZ7IduWaCl3AoTVBhhJeb0u4DhBHHyozv8u/LXNfK3/1buQvAnQ/D20DMZhGMwvHmNWDHfJ8ye+17jqAkyvDVFH8jT2TGnOwpzjnG5Bye/gjjfSIDvZTul+kCJmKW5XIVH8kYPURGu0mpMO2cMFS2xTArkL8xz8MEFTg6+of1E3u7Ki4dqBY2fa5sMc/30l9bMVpn81qmSY9ZMxyyZR647xi+Zs1M6kriu+xMDl60HzIjYqSxu7zmpQNPssw/JXfeg5nlgOih335Au9af1k/Dnxxwxe9LF/5/SpV7OGZt3Nr5531SJ6lu4Omu8FyvRobzblX9tJRLN5pcolXjzex7n+j8=&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <path d="M 460 241 L 460 224.5 Q 460 211 446.5 211 L 343.5 211 Q 330 211 330 224.5 L 330 241" fill="#1ba1e2" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 330 241 L 330 277.5 Q 330 291 343.5 291 L 446.5 291 Q 460 291 460 277.5 L 460 241" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 330 241 L 460 241" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="394.5" y="231.5">
+                Karte
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="335.5" y="258.5">
+                + Wert
+            </text>
+            <text x="335.5" y="272.5">
+                + Farbe
+            </text>
+        </g>
+        <path d="M 160 321 L 160 304.5 Q 160 291 146.5 291 L 13.5 291 Q 0 291 0 304.5 L 0 321" fill="#60a917" stroke="#2d7600" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 0 321 L 0 457.5 Q 0 471 13.5 471 L 146.5 471 Q 160 471 160 457.5 L 160 321" fill="none" stroke="#2d7600" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 0 321 L 160 321" fill="none" stroke="#2d7600" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="79.5" y="311.5">
+                Spiel
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="5.5" y="338.5">
+                + ID
+            </text>
+            <text x="5.5" y="352.5">
+                + Spieler
+            </text>
+            <text x="5.5" y="366.5">
+                + Deck
+            </text>
+            <text x="5.5" y="380.5">
+                + starten()
+            </text>
+            <text x="5.5" y="394.5">
+                + verteileKartenAnSpieler()
+            </text>
+            <text x="5.5" y="408.5">
+                + spielerFragtNachKarten()
+            </text>
+        </g>
+        <path d="M 475 441 L 475 424.5 Q 475 411 461.5 411 L 328.5 411 Q 315 411 315 424.5 L 315 441" fill="#6a00ff" stroke="#3700cc" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 315 441 L 315 557.5 Q 315 571 328.5 571 L 461.5 571 Q 475 571 475 557.5 L 475 441" fill="none" stroke="#3700cc" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 315 441 L 475 441" fill="none" stroke="#3700cc" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="394.5" y="431.5">
+                Spieler
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="320.5" y="458.5">
+                + ID
+            </text>
+            <text x="320.5" y="472.5">
+                + Name
+            </text>
+            <text x="320.5" y="486.5">
+                + SpielerTyp
+            </text>
+            <text x="320.5" y="500.5">
+                + Karten
+            </text>
+            <text x="320.5" y="514.5">
+                + Sätze
+            </text>
+            <text x="320.5" y="528.5">
+                + kartenNehmen()
+            </text>
+            <text x="320.5" y="542.5">
+                + gebeKarten()
+            </text>
+            <text x="320.5" y="556.5">
+                + frageNachKartenwert()
+            </text>
+        </g>
+        <path d="M 750 491 L 750 474.5 Q 750 461 736.5 461 L 603.5 461 Q 590 461 590 474.5 L 590 491" fill="#1ba1e2" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 491 L 590 537.5 Q 590 551 603.5 551 L 736.5 551 Q 750 551 750 537.5 L 750 491" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 491 L 750 491" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="669.5" y="481.5">
+                SpielerTyp
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="595.5" y="508.5">
+                + Mensch
+            </text>
+            <text x="595.5" y="522.5">
+                + Computer
+            </text>
+        </g>
+        <path d="M 750 31 L 750 14.5 Q 750 1 736.5 1 L 603.5 1 Q 590 1 590 14.5 L 590 31" fill="#1ba1e2" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 31 L 590 217.5 Q 590 231 603.5 231 L 736.5 231 Q 750 231 750 217.5 L 750 31" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 31 L 750 31" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="669.5" y="21.5">
+                Wert
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="595.5" y="48.5">
+                + 2
+            </text>
+            <text x="595.5" y="62.5">
+                + 3
+            </text>
+            <text x="595.5" y="76.5">
+                + 4
+            </text>
+            <text x="595.5" y="90.5">
+                + 5
+            </text>
+            <text x="595.5" y="104.5">
+                + 6
+            </text>
+            <text x="595.5" y="118.5">
+                + 7
+            </text>
+            <text x="595.5" y="132.5">
+                + 8
+            </text>
+            <text x="595.5" y="146.5">
+                + 9
+            </text>
+            <text x="595.5" y="160.5">
+                + 10
+            </text>
+            <text x="595.5" y="174.5">
+                + Bube
+            </text>
+            <text x="595.5" y="188.5">
+                + Dame
+            </text>
+            <text x="595.5" y="202.5">
+                + König
+            </text>
+            <text x="595.5" y="216.5">
+                + Ass
+            </text>
+        </g>
+        <path d="M 590 316 L 525 316 L 525 266 L 466.37 266" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 461.12 266 L 468.12 262.5 L 466.37 266 L 468.12 269.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 750 291 L 750 274.5 Q 750 261 736.5 261 L 603.5 261 Q 590 261 590 274.5 L 590 291" fill="#1ba1e2" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 291 L 590 357.5 Q 590 371 603.5 371 L 736.5 371 Q 750 371 750 357.5 L 750 291" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 291 L 750 291" fill="none" stroke="#006eaf" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#ffffff" font-family="Helvetica" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="669.5" y="281.5">
+                Farbe
+            </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" pointer-events="none" font-size="12px">
+            <text x="595.5" y="308.5">
+                + Herz
+            </text>
+            <text x="595.5" y="322.5">
+                + Karo
+            </text>
+            <text x="595.5" y="336.5">
+                + Kreuz
+            </text>
+            <text x="595.5" y="350.5">
+                + Pik
+            </text>
+        </g>
+        <path d="M 590 161.06 L 530.06 161.06 L 530.06 261.06 L 466.37 261.01" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 461.12 261 L 468.12 257.51 L 466.37 261.01 L 468.12 264.51 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 395 291 L 395 404.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 395 409.88 L 391.5 402.88 L 395 404.63 L 398.5 402.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 590 521.06 L 532.53 521.06 L 532.53 498.71 L 481.37 498.72" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 476.12 498.72 L 483.12 495.22 L 481.37 498.72 L 483.12 502.22 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 330 266 L 245 266 L 245 396 L 166.37 396" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 161.12 396 L 168.12 392.5 L 166.37 396 L 168.12 399.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 315 496 L 240.06 496 L 240.06 396 L 166.37 396" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 161.12 396 L 168.12 392.5 L 166.37 396 L 168.12 399.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+    </g>
+</svg>
