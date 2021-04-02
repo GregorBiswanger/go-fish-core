@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Karte from '../value-types/Karte';
 import { SpielerTyp } from '../value-types/SpielerTyp';
+import { Wert } from '../value-types/Wert';
 
 export default class Spieler {
     get id() { return this._id; }
@@ -19,5 +20,13 @@ export default class Spieler {
     /** @internal */
     kartenNehmen(karten: Karte[]) {
         this._karten = [...this.karten, ...karten];
+    }
+
+    /** @internal */
+    gebeKarten(kartenWert: Wert) {
+        const karten = this.karten.filter(karte => karte.wert === kartenWert);
+        this._karten = this.karten.filter(karte => karte.wert !== kartenWert);
+
+        return [...karten];
     }
 }

@@ -8,7 +8,7 @@ export default class SpielkartenFactory {
 
         for (const farbe in Farbe) {
             for (const wert in Wert) {
-                karten.push(new Karte(wert as Wert, farbe as Farbe));
+                karten.push(new Karte(farbe as Farbe, wert as Wert));
             }
         }
 
