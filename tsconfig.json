@@ -4,7 +4,7 @@
     ],
     "include": [
         "./src/**/*"
-    ],
+, "specs/spielablauf.spec.ts"    ],
     "compilerOptions": {
         "target": "es2019",
         "module": "commonjs",
