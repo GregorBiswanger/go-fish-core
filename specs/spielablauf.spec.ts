@@ -28,9 +28,22 @@ describe('Spielablauf vom Go Fish Spiel', () => {
     it('Spiel hat 52 Spielkarten und zwei Spieler erhalten', () => {       
         const spiel = new Spiel();
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.spyOn<any, any>(spiel, 'verteileFuenfKartenAnSpieler').mockImplementation();
+
         spiel.starten(_spielkarten, _spieler);
 
         expect(spiel.deck.length).toBe(52);
+    });
+
+    it('Jedem Spieler 5 zufällige Karten vom Deck geben', () => {
+        const spiel = new Spiel();
+
+        spiel.starten(_spielkarten, _spieler);
+
+        expect(spiel.deck.length).toBe(42);
+        expect(spiel.spieler[0].karten.length).toBe(5);
+        expect(spiel.spieler[1].karten.length).toBe(5);
     });
 
 });
