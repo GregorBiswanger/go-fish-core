@@ -2,6 +2,7 @@ import { Subject } from 'rxjs';
 import { NIL as NIL_UUID, v4 as uuidv4 } from 'uuid';
 import SpielerGewechselt from './domain-events/SpielerGewechselt';
 import SpielerHatKartenErhalten from './domain-events/SpielerHatKartenErhalten';
+import SpielEnde from './domain-events/SpielEnde';
 import Spieler from './entities/Spieler';
 import Karte from './value-types/Karte';
 import { Wert } from './value-types/Wert';
@@ -34,6 +35,15 @@ export default class Spiel {
     }
     private readonly spielerIstFischenGegangenSubject = new Subject<SpielerHatKartenErhalten>();
 
+    get spielEnde() {
+        return this.spielEndeSubject.asObservable();
+    }
+    private readonly spielEndeSubject = new Subject<SpielEnde>();
+
+    get gleicherSpielerNochmal() {
+        return this.gleicherSpielerNochmalSubject.asObservable();
+    }
+    private readonly gleicherSpielerNochmalSubject = new Subject();
 
     starten(spielkarten: Karte[], spieler: Spielerliste) {
         this._deck = [...spielkarten];
@@ -41,56 +51,6 @@ export default class Spiel {
 
         this.verteileFuenfKartenAnSpieler();
         this.naechsterSpieler();
-    }
-
-    spielerFragtNachKarten(gefragterSpielerId: string, kartenWert: Wert) {
-        const gefragterSpieler = this.gebeSpieler(gefragterSpielerId);
-        const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
-        const erhalteneKarten = gefragterSpieler.gebeKarten(kartenWert);
-
-        if(erhalteneKarten.length) {
-            aktuellerSpieler.kartenNehmen(erhalteneKarten);
-
-            this.spielerHatKartenErhaltenSubject.next(new SpielerHatKartenErhalten(
-                this.aktuellerSpielerId,
-                [...erhalteneKarten]
-                ));
-        } else {
-            this.spielerGehtFischen();
-        }
-    }
-
-    private spielerGehtFischen() {
-        const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
-        const karte = this.zieheZufälligeKarteVomStapel();
-
-        aktuellerSpieler.kartenNehmen([karte]);
-        this.spielerIstFischenGegangenSubject.next(new SpielerHatKartenErhalten(
-            aktuellerSpieler.id,
-            [karte]
-        ));
-
-        // if (this.istKartenstapelLeer()) {
-        //     this.gewinnerBekanntGeben();
-        // } else {
-        //     this.zumNaechstenSpieler();
-        // }
-    }
-
-    private zieheZufälligeKarteVomStapel() {
-        const deck = [...this.deck];
-        const karte = deck.splice(Math.floor(Math.random() * deck.length), 1)[0];
-        this._deck = [...deck];
-
-        return karte;
-    }
-
-    private gebeSpieler(spielerId: string) {
-        const spieler = this.spieler.find(spieler => spieler.id === spielerId);
-        if (!spieler) {
-            throw new Error(`Es gibt keinen Spieler mit der ID ${spielerId}`);
-        }
-        return spieler;
     }
 
     private verteileFuenfKartenAnSpieler() {
@@ -107,11 +67,92 @@ export default class Spiel {
     }
 
     private naechsterSpieler() {
-        if(this.aktuellerSpielerId === NIL_UUID) {
+        if (this.aktuellerSpielerId === NIL_UUID) {
             this._aktuellerSpielerId = this.spieler[0].id;
         }
 
         this.spielerGewechseltSubject.next(new SpielerGewechselt(this.aktuellerSpielerId));
+
+    }
+    
+    private spielerNochmal() { 
+        this.gleicherSpielerNochmalSubject.next();
+    }
+
+    spielerFragtNachKarten(gefragterSpielerId: string, kartenWert: Wert) {
+        const gefragterSpieler = this.gebeSpieler(gefragterSpielerId);
+        const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+        const erhalteneKarten = gefragterSpieler.gebeKarten(kartenWert);
+
+        if (erhalteneKarten.length) {
+            aktuellerSpieler.kartenNehmen(erhalteneKarten);
+
+            this.spielerHatKartenErhaltenSubject.next(new SpielerHatKartenErhalten(
+                this.aktuellerSpielerId,
+                [...erhalteneKarten]));
+
+            this.habenAlleSpielerNochKarten();
+        } else {
+            this.spielerGehtFischen(kartenWert);
+        }
+    }
+
+    private habenAlleSpielerNochKarten() {
+        if (this.spieler.some(spieler => spieler.karten.length === 0)) {
+            this.gewinnerBekanntGeben();
+        } else {
+            this.spielerNochmal();
+        }
+    }
+
+    private gewinnerBekanntGeben() {
+        const spieler = [...this.spieler];
+        const gewinnerSpieler = spieler.sort((a, b) => b.saetze.length - a.saetze.length)[0];
+        this.spielEndeSubject.next(new SpielEnde(
+            gewinnerSpieler.id,
+            gewinnerSpieler.saetze.length / 4
+        ));
+    }
+
+    private spielerGehtFischen(erhoffterKartenWert: Wert) {
+        const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+        const karte = this.zieheZufälligeKarteVomStapel();
+
+        aktuellerSpieler.kartenNehmen([karte]);
+        this.spielerIstFischenGegangenSubject.next(new SpielerHatKartenErhalten(
+            aktuellerSpieler.id,
+            [karte]
+        ));
+
+        if (this.istKartenstapelLeer()) {
+            this.gewinnerBekanntGeben();
+        }
+        else if (karte.wert === erhoffterKartenWert) {
+            this.spielerNochmal();
+        }
+        else {
+            this.naechsterSpieler();
+        }
+    }
+
+    private zieheZufälligeKarteVomStapel() {
+        const deck = [...this.deck];
+        const karte = deck.splice(Math.floor(Math.random() * deck.length), 1)[0];
+        this._deck = [...deck];
+
+        return karte;
+    }
+
+    private istKartenstapelLeer() {
+        return this.deck.length === 0;
+    }
+
+    private gebeSpieler(spielerId: string) {
+        const spieler = this.spieler.find(spieler => spieler.id === spielerId);
+        if (!spieler) {
+            throw new Error(`Es gibt keinen Spieler mit der ID ${spielerId}`);
+        }
+        return spieler;
     }
 }
 

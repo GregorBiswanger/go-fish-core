@@ -145,4 +145,104 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         expect(spieler.saetze.length).toBe(0);
         expect(spieler.karten.length).toBe(5);
     });
+
+    it('Computer-Spieler hat Karten abgegeben und hat dann keine mehr, dann wird Gewinner bekannt gegeben', (done) => {
+        const spieler = _spieler[0];
+        jest.spyOn<any, any>(spieler, 'saetze', 'get').mockReturnValue([
+            new Karte(Farbe.Herz, Wert.Ass),
+            new Karte(Farbe.Karo, Wert.Ass),
+            new Karte(Farbe.Kreuz, Wert.Ass),
+            new Karte(Farbe.Pik, Wert.Ass),
+            new Karte(Farbe.Herz, Wert.Dame),
+            new Karte(Farbe.Karo, Wert.Dame),
+            new Karte(Farbe.Kreuz, Wert.Dame),
+            new Karte(Farbe.Pik, Wert.Dame)
+        ]);
+
+        const computerSpieler = _spieler[1];
+        computerSpieler.kartenNehmen([
+            new Karte(Farbe.Herz, Wert.Fünf),
+            new Karte(Farbe.Karo, Wert.Fünf)
+        ]);
+        const spiel = new Spiel();
+
+        spiel.spielerGewechselt.subscribe(() => {
+            spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+        });
+
+        spiel.spielerHatKartenErhalten.subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(computerSpieler, 'karten', 'get').mockReturnValue([]);
+        });
+
+        spiel.spielEnde.subscribe(spielEnde => {
+            expect(spielEnde.gewinnerSpielerId).toBe(_spieler[0].id);
+            expect(spielEnde.anzahlSaetze).toBe(2);
+
+            done();
+        });
+
+        spiel.starten(_spielkarten, _spieler);
+    });
+
+    it('Ist Deck leer, wird das Spiel beendet', (done) => {
+        const spiel = new Spiel();
+
+        spiel.spielerGewechselt.subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(spiel.spieler[1], 'karten', 'get').mockReturnValueOnce([]);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(spiel, 'deck', 'get').mockReturnValueOnce([ new Karte(Farbe.Herz, Wert.Dame)]);
+
+            spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+        });
+
+        spiel.spielEnde.subscribe(() => {
+            done();
+        });
+
+        spiel.starten(_spielkarten, _spieler);
+    });
+
+    it('Spieler fragt Gegenspieler nach vorhandenen Karten mit Wert, dann darf der Spieler nochmal fragen', (done) => {
+        const computerSpieler = _spieler[1];
+        computerSpieler.kartenNehmen([
+            new Karte(Farbe.Herz, Wert.Fünf),
+            new Karte(Farbe.Karo, Wert.Fünf)
+        ]);
+
+        const spiel = new Spiel();
+
+        spiel.spielerGewechselt.subscribe(() => {
+            spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+        });
+
+        spiel.gleicherSpielerNochmal.subscribe(() => {
+            done();
+        })
+
+        spiel.starten(_spielkarten, _spieler);
+    });
+
+    it('Spieler ging nach Kartenfrage fischen und erhielt dabei Karte mit gefragtem Wert, dann darf der Spieler nochmal fragen', (done) => {
+        const spiel = new Spiel();
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.spyOn<any, any>(spiel, 'zieheZufälligeKarteVomStapel').mockReturnValue(new Karte(Farbe.Herz, Wert.Fünf));
+
+        // setup fishing scenario: computer player has nothing to offer
+        spiel.spielerGewechselt.subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(spiel.spieler[1], 'karten', 'get').mockReturnValueOnce([]);
+
+            spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+        });
+        
+        spiel.gleicherSpielerNochmal.subscribe(() => {
+            done();
+        })
+
+        spiel.starten(_spielkarten, _spieler);
+    });
 });

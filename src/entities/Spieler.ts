@@ -53,12 +53,6 @@ export default class Spieler {
                 this._karten = this.karten.filter(karte => !karten.includes(karte));
 
                 this._saetzeGefundenSubject.next(new SatzGefunden([...karten] as ReadonlyArray<Karte>));
-                // karten.forEach(karte => {
-                //     const index = this.karten.indexOf(karte);
-                //     const karten = [...this.karten];
-                //     karten.splice(index, 1);
-                //     this._karten = [...karten];
-                // });
             }
         });
     }
