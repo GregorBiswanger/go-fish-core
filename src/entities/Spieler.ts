@@ -19,13 +19,13 @@ export default class Spieler {
     private readonly _saetzeGefundenSubject = new Subject<SatzGefunden>();
 
     constructor(public readonly name: string,
-        public readonly spielerType: SpielerTyp) {
+        public readonly spielerTyp: SpielerTyp) {
     }
 
     /** @internal */
     kartenNehmen(karten: Karte[]) {
         this._karten = [...this.karten, ...karten];
-        
+
         this.aufSaetzePruefen();
     }
 
@@ -36,7 +36,7 @@ export default class Spieler {
 
         return [...karten];
     }
-    
+
     private aufSaetzePruefen() {
         const kartenProWert = new Map<Wert, Karte[]>();
 
@@ -55,5 +55,25 @@ export default class Spieler {
                 this._saetzeGefundenSubject.next(new SatzGefunden([...karten] as ReadonlyArray<Karte>));
             }
         });
+    }
+
+    /** @internal */
+    frageNachKartenwert() {
+        if (this.spielerTyp === SpielerTyp.Computer) {
+            const map = new Map();
+
+            this.karten.forEach(karte => {
+                let kartenwertAnzahl = map.get(karte.wert) || 0;
+                map.set(karte.wert, kartenwertAnzahl++);
+            });
+
+            if (map.size === 0) {
+                return;
+            }
+
+            return [...map.entries()].reduce((a, b) => b[1] > a[1] ? b : a)[0] as Wert;
+        } else {
+            throw new Error('Kein computer spieler');
+        }
     }
 }

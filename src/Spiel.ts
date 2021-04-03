@@ -6,6 +6,7 @@ import SpielEnde from './domain-events/SpielEnde';
 import Spieler from './entities/Spieler';
 import Karte from './value-types/Karte';
 import { Wert } from './value-types/Wert';
+import { SpielerTyp } from './value-types/SpielerTyp';
 
 export default class Spiel {
     get id() { return this._id; }
@@ -69,13 +70,39 @@ export default class Spiel {
     private naechsterSpieler() {
         if (this.aktuellerSpielerId === NIL_UUID) {
             this._aktuellerSpielerId = this.spieler[0].id;
+        } else {
+            const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+            const aktuellerSpielerIndex = this.spieler.indexOf(aktuellerSpieler);
+
+            const naechsterSpielerIndex = (aktuellerSpielerIndex + 1) % this.spieler.length; 
+            this._aktuellerSpielerId = this.spieler[naechsterSpielerIndex].id;
         }
 
         this.spielerGewechseltSubject.next(new SpielerGewechselt(this.aktuellerSpielerId));
 
+        const neuerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+        if (neuerSpieler?.spielerTyp === SpielerTyp.Computer) {
+            this.computerSpielerSollKarteFordern(neuerSpieler);
+        }
     }
-    
-    private spielerNochmal() { 
+
+    private computerSpielerSollKarteFordern(computerSpieler: Spieler) {
+        const kartenWert = computerSpieler.frageNachKartenwert();
+        if (!kartenWert) {
+            // FIXME: Computer will nix :D
+            return;
+        }
+
+        const aktuellerSpielerIndex = this.spieler.indexOf(computerSpieler);
+        let zufallsIndex = -1;
+        do {
+            zufallsIndex = Math.floor(Math.random() * this.spieler.length);
+        } while (zufallsIndex != aktuellerSpielerIndex); 
+
+        this.spielerFragtNachKarten(this.spieler[zufallsIndex].id, kartenWert);
+    }
+
+    private spielerNochmal() {
         this.gleicherSpielerNochmalSubject.next();
     }
 
