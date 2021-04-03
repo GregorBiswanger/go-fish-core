@@ -72,10 +72,20 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         const spiel = new Spiel();
 
         spiel.spielerGewechselt.subscribe(() => {
+            jest.spyOn(computerSpieler, 'karten', 'get').mockReturnValueOnce([
+                new Karte(Farbe.Herz, Wert.Fünf),
+                new Karte(Farbe.Karo, Wert.Fünf),
+                new Karte(Farbe.Karo, Wert.Dame)
+            ]);
+
+            jest.spyOn(_spieler[0], 'karten', 'get').mockReturnValueOnce([
+                new Karte(Farbe.Karo, Wert.Ass)
+            ]);
+
             spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
         });
 
-        spiel.spielerHatKartenErhalten.subscribe((kartenErhaltenVomSpieler) => {
+        spiel.spielerHatKartenErhalten.pipe(take(1)).subscribe((kartenErhaltenVomSpieler) => {
             expect(kartenErhaltenVomSpieler.spielerId).toBe(_spieler[0].id);
             expect(kartenErhaltenVomSpieler.erhalteneKarten.length).toBeGreaterThanOrEqual(2);
             expect(kartenErhaltenVomSpieler.erhalteneKarten[0].wert).toBe(Wert.Fünf);
@@ -99,7 +109,7 @@ describe('Spielablauf vom Go Fish Spiel', () => {
             spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
         });
 
-        spiel.spielerIstFischenGegangen.subscribe(karteGezogen => {
+        spiel.spielerIstFischenGegangen.pipe(take(1)).subscribe(karteGezogen => {
             expect(spiel.spieler[0].karten.length).toBe(6);
             expect(spiel.deck.length).toBe(41);
             expect(karteGezogen.spielerId).toBe(_spieler[0].id);
