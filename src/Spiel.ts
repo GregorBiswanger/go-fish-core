@@ -64,7 +64,7 @@ export default class Spiel {
         const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
         const karte = this.zieheZufälligeKarteVomStapel();
 
-        aktuellerSpieler?.kartenNehmen([karte]);
+        aktuellerSpieler.kartenNehmen([karte]);
         this.spielerIstFischenGegangenSubject.next(new SpielerHatKartenErhalten(
             aktuellerSpieler.id,
             [karte]

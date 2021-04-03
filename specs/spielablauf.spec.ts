@@ -27,7 +27,7 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         expect(karten.length).toBe(52);
     });
 
-    it('Spiel hat 52 Spielkarten und zwei Spieler erhalten', () => {       
+    it('Spiel hat 52 Spielkarten und zwei Spieler erhalten', () => {
         const spiel = new Spiel();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,7 +67,7 @@ describe('Spielablauf vom Go Fish Spiel', () => {
             new Karte(Farbe.Herz, Wert.Fünf),
             new Karte(Farbe.Karo, Wert.Fünf)
         ]);
-        
+
         const spiel = new Spiel();
 
         spiel.spielerGewechselt.subscribe(() => {
@@ -108,5 +108,41 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         });
 
         spiel.starten(_spielkarten, _spieler);
+    });
+
+    it('Ein Satz gefunden', (done) => {
+        const karten: Karte[] = [
+            new Karte(Farbe.Herz, Wert.Ass),
+            new Karte(Farbe.Karo, Wert.Ass),
+            new Karte(Farbe.Kreuz, Wert.Ass),
+            new Karte(Farbe.Pik, Wert.Ass),
+            new Karte(Farbe.Herz, Wert.Drei)
+        ];
+        const spieler = new Spieler('Gregor', SpielerTyp.Mensch);
+
+        spieler.satzGefunden.subscribe(satzGefunden => {
+            expect(satzGefunden.satz.length).toBe(4);
+            expect(spieler.saetze.length).toBe(4);
+            expect(spieler.karten.length).toBe(1);
+
+            done();
+        });
+
+        spieler.kartenNehmen(karten);
+    });
+
+    it('Kein Satz gefunden', () => {
+        const karten: Karte[] = [
+            new Karte(Farbe.Herz, Wert.Ass),
+            new Karte(Farbe.Karo, Wert.Neun),
+            new Karte(Farbe.Kreuz, Wert.Zehn),
+            new Karte(Farbe.Pik, Wert.König),
+            new Karte(Farbe.Herz, Wert.Drei)
+        ];
+        const spieler = new Spieler('Gregor', SpielerTyp.Mensch);
+
+        spieler.kartenNehmen(karten);
+        expect(spieler.saetze.length).toBe(0);
+        expect(spieler.karten.length).toBe(5);
     });
 });

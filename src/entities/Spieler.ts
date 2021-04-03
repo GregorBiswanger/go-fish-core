@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Subject } from 'rxjs';
 import Karte from '../value-types/Karte';
 import { SpielerTyp } from '../value-types/SpielerTyp';
 import { Wert } from '../value-types/Wert';
+import SatzGefunden from '../domain-events/SatzGefunden';
 
 export default class Spieler {
     get id() { return this._id; }
@@ -13,6 +15,9 @@ export default class Spieler {
     get saetze() { return this._saetze; }
     private _saetze: ReadonlyArray<Karte> = [];
 
+    get satzGefunden() { return this._saetzeGefundenSubject.asObservable(); }
+    private readonly _saetzeGefundenSubject = new Subject<SatzGefunden>();
+
     constructor(public readonly name: string,
         public readonly spielerType: SpielerTyp) {
     }
@@ -20,6 +25,8 @@ export default class Spieler {
     /** @internal */
     kartenNehmen(karten: Karte[]) {
         this._karten = [...this.karten, ...karten];
+        
+        this.aufSaetzePruefen();
     }
 
     /** @internal */
@@ -28,5 +35,31 @@ export default class Spieler {
         this._karten = this.karten.filter(karte => karte.wert !== kartenWert);
 
         return [...karten];
+    }
+    
+    private aufSaetzePruefen() {
+        const kartenProWert = new Map<Wert, Karte[]>();
+
+        this.karten.forEach(karte => {
+            const karten = kartenProWert.get(karte.wert) ?? [];
+            karten.push(karte);
+
+            kartenProWert.set(karte.wert, karten);
+        });
+
+        kartenProWert.forEach((karten: Karte[]) => {
+            if (karten.length === 4) {
+                this._saetze = [...this.saetze, ...karten];
+                this._karten = this.karten.filter(karte => !karten.includes(karte));
+
+                this._saetzeGefundenSubject.next(new SatzGefunden([...karten] as ReadonlyArray<Karte>));
+                // karten.forEach(karte => {
+                //     const index = this.karten.indexOf(karte);
+                //     const karten = [...this.karten];
+                //     karten.splice(index, 1);
+                //     this._karten = [...karten];
+                // });
+            }
+        });
     }
 }
