@@ -56,24 +56,4 @@ export default class Spieler {
             }
         });
     }
-
-    /** @internal */
-    frageNachKartenwert() {
-        if (this.spielerTyp === SpielerTyp.Computer) {
-            const map = new Map();
-
-            this.karten.forEach(karte => {
-                let kartenwertAnzahl = map.get(karte.wert) || 0;
-                map.set(karte.wert, kartenwertAnzahl++);
-            });
-
-            if (map.size === 0) {
-                return;
-            }
-
-            return [...map.entries()].reduce((a, b) => b[1] > a[1] ? b : a)[0] as Wert;
-        } else {
-            throw new Error('Kein computer spieler');
-        }
-    }
 }

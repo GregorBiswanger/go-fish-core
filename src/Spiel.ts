@@ -82,24 +82,36 @@ export default class Spiel {
 
         const neuerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
         if (neuerSpieler?.spielerTyp === SpielerTyp.Computer) {
-            this.computerSpielerSollKarteFordern(neuerSpieler);
+            this.fordereKarteFuerComputerSpieler(neuerSpieler);
         }
     }
 
-    private computerSpielerSollKarteFordern(computerSpieler: Spieler) {
-        const kartenWert = computerSpieler.frageNachKartenwert();
-        if (!kartenWert) {
-            // FIXME: Computer will nix :D
-            return;
-        }
+    private fordereKarteFuerComputerSpieler(computerSpieler: Spieler) {
+        const kartenwert = this.gebeMeistVorhandenenKartenwert(computerSpieler);
+        const gefragterSpieler = this.waehleAnderenSpieler(computerSpieler);
 
-        const aktuellerSpielerIndex = this.spieler.indexOf(computerSpieler);
-        let zufallsIndex = -1;
+        this.spielerFragtNachKarten(gefragterSpieler.id, kartenwert);
+    }
+
+    private waehleAnderenSpieler(spieler: Spieler) {
+        const spielerIndex = this.spieler.indexOf(spieler);
+        let andererSpielerIndex: number;
         do {
-            zufallsIndex = Math.floor(Math.random() * this.spieler.length);
-        } while (zufallsIndex != aktuellerSpielerIndex); 
+            andererSpielerIndex = Math.floor(Math.random() * this.spieler.length);
+        } while (andererSpielerIndex != spielerIndex);
 
-        this.spielerFragtNachKarten(this.spieler[zufallsIndex].id, kartenWert);
+        return this.spieler[andererSpielerIndex];
+    }
+
+    private gebeMeistVorhandenenKartenwert(spieler: Spieler) {
+        const kartenwertAnzahlen = new Map<Wert, number>();
+
+        spieler.karten.forEach(karte => {
+            const kartenwertAnzahl = kartenwertAnzahlen.get(karte.wert) ?? 0;
+            kartenwertAnzahlen.set(karte.wert, kartenwertAnzahl + 1);
+        });
+
+        return [...kartenwertAnzahlen.entries()].reduce((a, b) => b[1] > a[1] ? b : a)[0];
     }
 
     private spielerNochmal() {
