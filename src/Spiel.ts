@@ -29,6 +29,12 @@ export default class Spiel {
     }
     private readonly spielerHatKartenErhaltenSubject = new Subject<SpielerHatKartenErhalten>();
 
+    get spielerIstFischenGegangen() {
+        return this.spielerIstFischenGegangenSubject.asObservable();
+    }
+    private readonly spielerIstFischenGegangenSubject = new Subject<SpielerHatKartenErhalten>();
+
+
     starten(spielkarten: Karte[], spieler: Spielerliste) {
         this._deck = [...spielkarten];
         this._spieler = [...spieler];
@@ -49,7 +55,34 @@ export default class Spiel {
                 this.aktuellerSpielerId,
                 [...erhalteneKarten]
                 ));
-        } // else geh fischen
+        } else {
+            this.spielerGehtFischen();
+        }
+    }
+
+    private spielerGehtFischen() {
+        const aktuellerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+        const karte = this.zieheZufälligeKarteVomStapel();
+
+        aktuellerSpieler?.kartenNehmen([karte]);
+        this.spielerIstFischenGegangenSubject.next(new SpielerHatKartenErhalten(
+            aktuellerSpieler.id,
+            [karte]
+        ));
+
+        // if (this.istKartenstapelLeer()) {
+        //     this.gewinnerBekanntGeben();
+        // } else {
+        //     this.zumNaechstenSpieler();
+        // }
+    }
+
+    private zieheZufälligeKarteVomStapel() {
+        const deck = [...this.deck];
+        const karte = deck.splice(Math.floor(Math.random() * deck.length), 1)[0];
+        this._deck = [...deck];
+
+        return karte;
     }
 
     private gebeSpieler(spielerId: string) {

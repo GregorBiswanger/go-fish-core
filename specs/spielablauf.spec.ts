@@ -87,4 +87,26 @@ describe('Spielablauf vom Go Fish Spiel', () => {
 
         spiel.starten(_spielkarten, _spieler);
     });
+
+    it('Spieler fragt Gegenspieler nach nicht vorhandenen Karten mit Wert, dann ist Spieler fischen gegangen', (done) => {
+        const spiel = new Spiel();
+
+        spiel.spielerGewechselt.subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(spiel.spieler[1], 'karten', 'get').mockReturnValueOnce([]);
+
+            spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+        });
+
+        spiel.spielerIstFischenGegangen.subscribe(karteGezogen => {
+            expect(spiel.spieler[0].karten.length).toBe(6);
+            expect(spiel.deck.length).toBe(41);
+            expect(karteGezogen.spielerId).toBe(_spieler[0].id);
+            expect(karteGezogen.erhalteneKarten).toBeTruthy();
+
+            done();
+        });
+
+        spiel.starten(_spielkarten, _spieler);
+    });
 });
