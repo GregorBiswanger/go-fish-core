@@ -1,9 +1,9 @@
+import Karte from '../value-types/Karte';
+import SatzGefunden from '../domain-events/SatzGefunden';
 import { v4 as uuidv4 } from 'uuid';
 import { Subject } from 'rxjs';
-import Karte from '../value-types/Karte';
 import { SpielerTyp } from '../value-types/SpielerTyp';
 import { Wert } from '../value-types/Wert';
-import SatzGefunden from '../domain-events/SatzGefunden';
 
 export default class Spieler {
     get id() { return this._id; }
@@ -29,14 +29,6 @@ export default class Spieler {
         this.aufSaetzePruefen();
     }
 
-    /** @internal */
-    gebeKarten(kartenWert: Wert) {
-        const karten = this.karten.filter(karte => karte.wert === kartenWert);
-        this._karten = this.karten.filter(karte => karte.wert !== kartenWert);
-
-        return [...karten];
-    }
-
     private aufSaetzePruefen() {
         const kartenProWert = new Map<Wert, Karte[]>();
 
@@ -55,5 +47,13 @@ export default class Spieler {
                 this._saetzeGefundenSubject.next(new SatzGefunden([...karten] as ReadonlyArray<Karte>));
             }
         });
+    }
+
+    /** @internal */
+    gebeKarten(kartenWert: Wert) {
+        const karten = this.karten.filter(karte => karte.wert === kartenWert);
+        this._karten = this.karten.filter(karte => karte.wert !== kartenWert);
+
+        return [...karten];
     }
 }
