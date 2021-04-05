@@ -21,6 +21,11 @@ export default class Spiel {
     get aktuellerSpielerId() { return this._aktuellerSpielerId; }
     private _aktuellerSpielerId: string = NIL_UUID;
 
+    get gestartet() {
+        return this.gestartetSubject.asObservable();
+    }
+    private readonly gestartetSubject = new Subject();
+
     get spielerGewechselt() {
         return this.spielerGewechseltSubject.asObservable();
     }
@@ -51,6 +56,7 @@ export default class Spiel {
         this._spieler = [...spieler];
 
         this.verteileFuenfKartenAnSpieler();
+        this.gestartetSubject.next();
         this.naechsterSpieler();
     }
 
