@@ -8,6 +8,9 @@
     "test": "jest",
     "lint": "eslint . --ext .ts"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
