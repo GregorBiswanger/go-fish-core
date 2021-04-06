@@ -256,6 +256,68 @@ describe('Spielablauf vom Go Fish Spiel', () => {
         spiel.starten(_spielkarten, _spieler);
     });
 
+    it('Computerspieler darf nochmal und frägt nach einer Karte', (done) => {
+        const computerSpieler = _spieler[1];
+
+        const spiel = new Spiel();
+
+        spiel.spielerHatKartenErhalten.pipe(
+            filter(spielerHatKartenErhalten => spielerHatKartenErhalten.spielerId === computerSpieler.id),
+            skip(1),
+            take(1)
+        ).subscribe(() => {
+            done();
+        });
+
+        spiel.spielerIstFischenGegangen.pipe(
+            filter(spielerHatKartenErhalten => spielerHatKartenErhalten.spielerId === computerSpieler.id),
+            skip(1),
+            take(1)
+        ).subscribe(() => {
+            done();
+        });
+
+        spiel.gleicherSpielerNochmal.pipe(
+            filter(() => spiel.aktuellerSpielerId === computerSpieler.id),
+            take(1)
+        ).subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(computerSpieler, 'karten', 'get').mockReturnValue([
+                new Karte(Farbe.Herz, Wert.Fünf),
+                new Karte(Farbe.Pik, Wert.Fünf)
+            ]);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(computerSpieler, 'karten', 'get').mockReturnValue([
+                new Karte(Farbe.Herz, Wert.Neun)
+            ]);
+        });
+
+        spiel.spielerGewechselt.pipe(
+            filter(() => spiel.aktuellerSpielerId === computerSpieler.id)
+        ).subscribe(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            jest.spyOn<any, any>(spiel, 'zieheZufaelligeKarteVomStapel').mockReturnValueOnce(new Karte(Farbe.Kreuz, Wert.Neun));
+        });
+
+        spiel.starten(_spielkarten, _spieler);
+
+        // Wir simulieren das Ergebnis eines Spielverlaufs:
+
+        // Der Computerspieler hat keine Karte mit Wert Fünf
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.spyOn<any, any>(computerSpieler, 'karten', 'get').mockReturnValue([
+            new Karte(Farbe.Herz, Wert.Neun)
+        ]);
+
+        // und auf dem Stapel liegt oben auch keine Karte mit Wert Fünf
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.spyOn<any, any>(spiel, 'zieheZufaelligeKarteVomStapel').mockReturnValue(new Karte(Farbe.Kreuz, Wert.Drei));
+
+        // Wenn der menschliche Spieler nun Karten anfragt, geht seine Runde zu Ende und der Computer ist dran.
+        spiel.spielerFragtNachKarten(spiel.spieler[1].id, Wert.Fünf);
+    });
+
     it('Nach Spielrunde, soll der nächste Spieler an der Reihe sein', (done) => {
         const computerSpieler = _spieler[1];
 

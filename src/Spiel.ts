@@ -109,7 +109,7 @@ export default class Spiel {
         let andererSpielerIndex: number;
         do {
             andererSpielerIndex = Math.floor(Math.random() * this.spieler.length);
-        } while (andererSpielerIndex != aktuellerSpielerIndex);
+        } while (andererSpielerIndex === aktuellerSpielerIndex);
 
         return this.spieler[andererSpielerIndex];
     }
@@ -153,6 +153,11 @@ export default class Spiel {
 
     private aktuellenSpielerErneutZiehenLassen() {
         this.gleicherSpielerNochmalSubject.next();
+
+        const neuerSpieler = this.gebeSpieler(this.aktuellerSpielerId);
+        if (neuerSpieler.spielerTyp === SpielerTyp.Computer) {
+            this.fordereKarteFuerComputerSpieler(neuerSpieler);
+        }
     }
 
     private habenAlleSpielerNochKarten() {
